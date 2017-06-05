@@ -8,11 +8,11 @@ Installation
  - Follow instruct from setup script
 
 Add Instance 
- - instmanager.sh [INSTANCE_NAME] add
+ - instmanager [INSTANCE_NAME] add
  - check instance directory 
 
 Remove Instance 
- - instmanager.sh [INSTANCE_NAME] remove  
+ - instmanager [INSTANCE_NAME] remove  
 
 Running Instance
- - host]./cwas.sh [INSTANACE_NAME] start
+ - host]./cwas [INSTANACE_NAME] start
