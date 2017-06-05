@@ -1,0 +1,18 @@
+Requirement 
+ WAS Account 
+ WAS home directory
+ JDK 1.7 or higer
+
+Installation 
+ - host]# setup.sh
+ - Follow instruct from setup script
+
+Add Instance 
+ - instmanager.sh [INSTANCE_NAME] add
+ - check instance directory 
+
+Remove Instance 
+ - instmanager.sh [INSTANCE_NAME] remove  
+
+Running Instance
+ - host]./cwas.sh [INSTANACE_NAME] start
