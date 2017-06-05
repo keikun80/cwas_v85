@@ -98,7 +98,7 @@ function chlux_logo() {
 }
 
 function chlux_logo_tail() {
-    inst_list
+    #inst_list
     echo " "
     echo -e "  \e[1;37mUsage 1) \e[1;32mcwas.sh \e[1;33m[ Instname ] \e[0m[ \e[1;36mstart\e[0m | \e[1;36mrestart\e[0m | \e[1;36mstatus\e[0m | \e[1;36mstop \e[0m] "
     echo -e "  \e[1;37mUsage 2) \e[1;32mcwas.sh \e[1;33m[ Instname ] \e[0m[ \e[1;36mconfig\e[0m | \e[1;36mkill\e[0m | \e[1;36mlog\e[0m | \e[1;36mthread \e[0m] "
@@ -152,7 +152,7 @@ function sia_start() {
         for ((i=0; i<=$inst_num; i++)) 
 		do
 		if [ $INSTNAME = ${inst_names[$i]} ]; then  
-	    	run_inst=$(ps -ef | grep ${TPATH} | grep -v grep | grep ${inst_names[$i]} | awk {'print $2 $16'}) 
+	    	run_inst=$(ps -ef | grep ${TPATH} | grep -v grep | grep -w ${inst_names[$i]} | awk {'print $2 $16'}) 
             	if [ -z "$run_inst" ]; then
 					sia_conf_file=$CATALINA_BASE/conf/sia.conf  
 					if [ -f ${sia_conf_file} ]; then 
@@ -189,7 +189,7 @@ function sia_start() {
 
 function sia_stop() {
 	
-    runinst=$(ps -ef | grep tomcat | grep $TPATH | grep $CATALINA_BASE)
+    runinst=$(ps -ef | grep tomcat | grep $TPATH | grep -w $CATALINA_BASE)
     if [ ! -z "$runinst" ]; then
         source $INSTNACE_BASE/conf/sia.conf
 		chlux_logo
@@ -214,7 +214,7 @@ function sia_stop() {
 function sia_status() {
 
     instcount=$(ps -ef | grep ${TPATH} | grep -v grep |  wc -l)
-    instpid=$(ps -ef | grep ${TPATH} | grep -v grep |  grep $INSTNAME | awk {'print $2'})
+    instpid=$(ps -ef | grep ${TPATH} | grep -v grep |  grep -w $INSTNAME | awk {'print $2'})
     chlux_logo
     chlux_logo_tail
     echo -e " \e[1;36m Total Instance Running Counter\e[0m = [ \e[1;33m"$instcount" \e[0m]"
@@ -234,9 +234,9 @@ function sia_kill() {
 
     chlux_logo
     chlux_logo_tail
-    killPID=$(ps -ef | grep $TPATH | grep -v grep | grep $INSTNAME | awk {'print $2'})
+    killPID=$(ps -ef | grep $TPATH | grep -v grep | grep -w $INSTNAME | awk {'print $2'})
     echo -e " \e[1;31mProcess Kill Instance \e[1;33m"$INSTNAME"\e[0m [ PID : \e[1;33m"$killPID"\e[0m ] \e[1;31mTerminated !!! \e[0m"
-    ps -ef | grep tomcat | grep $TPATH | grep -v grep | grep $INSTNAME | awk '{ printf("kill -9 %s\n", $2); }' > tmp.$$
+    ps -ef | grep tomcat | grep $TPATH | grep -v grep | grep -w $INSTNAME | awk '{ printf("kill -9 %s\n", $2); }' > tmp.$$
     sh tmp.$$
     rm -f tmp.$$
     sia_line
@@ -248,7 +248,7 @@ function sia_thread() {
 
     chlux_logo
     chlux_logo_tail
-    threadPID=$(ps -ef | grep $TPATH | grep -v grep | grep $INSTNAME | awk {'print $2'})
+    threadPID=$(ps -ef | grep $TPATH | grep -v grep | grep -w $INSTNAME | awk {'print $2'})
     threadCount=$(ps uH $threadPID | wc -l )
     echo -e " \e[1;37m  Instance ID \e[1;33m"$INSTNAME"\e[0m [ PID : \e[1;33m"$threadPID"\e[0m / THREAD : \e[1;33m"$threadCount"\e[0m ]"
     sia_line

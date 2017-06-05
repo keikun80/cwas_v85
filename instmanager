@@ -1,5 +1,6 @@
 #!/bin/bash
 
+currentDir=`pwd`
 function _front()
 { 
     TITLE="CHLUX INSTANCE CREATOR"
@@ -165,10 +166,18 @@ function addInst() {
     mkdir -p ${INSTDIR}/logs
     mkdir -p ${INSTDIR}/temp
     mkdir -p ${INSTDIR}/work
-    mkdir -p ${INSTDIR}/webapps
-    #cp -r share/conf/web.xml ${INSTDIR}/${CONFDIR}/web.xml 
+    #mkdir -p ${INSTDIR}/webapps   
+	
+	#if [ ! -d "${currentDir}/Deployments" ]; then  
+	#	mkdir -p ${currentDir}/Deployments
+	#fi
+	#mkdir -p ${currentDir}/Deployments/${INSTNAME} 
+	#ln -s ${currentDir}/Deployments/${INSTNAME}	 ${INSTDIR}/webapps
+    #cp -r share/conf/web.xml ${INSTDIR}/${CONFDIR}/web.xml  
+
     cp -r share/conf ${INSTDIR}/.
-    cp -r share/webapps/ ${INSTDIR}/
+    #cp -r share/webapps ${currentDir}/Deployments/${INSTNAME}
+    cp -r share/webapps ${INSTDIR}/.
    
     echo -e "\e[32mcreate instance configuration for  \e[33m${INSTNAME} \e[0m"
 
@@ -234,12 +243,12 @@ else
     _front 
     case $2 in 
     "add" )   
-	_confirm
-	_setjavahome
-	_getjavaversion
-	_setjavaopt
+		_confirm
+		_setjavahome
+		_getjavaversion
+		_setjavaopt
         _setDefault 
-        addInst
+        addInst 
         ;;
     "remove" )
         removeInst  
