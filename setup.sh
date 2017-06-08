@@ -1,14 +1,8 @@
 #!/bin/bash  
 
-
 currentDir=`pwd`;
-
-
-#temp_java_home=${JAVA_HOME}
 temp_java_home="/etc/alternatives";
 
-#echo ${temp_java_home}
-#echo ${CLASSPATH}  
 
 _RET=0 
 
@@ -27,8 +21,8 @@ function _tui_front()
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
     echo -e "" 
     printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : 1.0.1c" 
-    echo -e "\t Package : APACHE TOMCAT 7.0"
+    echo -e "\t Version : 1.0.2c" 
+    echo -e "\t Package : APACHE TOMCAT 8.5.15"
     echo -e "\t Require : Root Permission (Installation)"
     echo -e ""
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo  
