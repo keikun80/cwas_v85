@@ -22,14 +22,12 @@ function _com_chk_install()
 }
 function _tui_front()
 {
-    TITLE="CHLUX TOMCAT MULII INSTANCE PACK INSTALLER"
+    TITLE="CHLUX WEB APPLICATION SERVER INSTALLER"
     clear
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
     echo -e "" 
     printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : 1.0" 
-    echo -e "\t Author  : Chlux Co,Ltd."
-    echo -e "\t Release : 25. Dec. 2016" 
+    echo -e "\t Version : 1.0.1c" 
     echo -e "\t Package : APACHE TOMCAT 7.0"
     echo -e "\t Require : Root Permission (Installation)"
     echo -e ""
@@ -232,10 +230,13 @@ function _setjavaopt()
 
 function _tui_setlauncher()
 {  
-	echo ${WASUSER}
-   	cp ./share/dist/cwas.sh.dist ./cwas
+	#echo ${WASUSER}
+   	cp ./share/dist/cwas.sh.dist ./cwas 
  	sed -i -e "s:WAS_USER_SHOULD_CHANGE_HERE:${WASUSER}:g" ./cwas
  	sed -i -e "s:WAS_GROUP_SHOULD_CHANGE_HERE:${WASGROUP}:g" ./cwas
+ 	sed -i -e "s:WAS_USER_SHOULD_CHANGE_HERE:${WASUSER}:g" ./instmanager
+ 	sed -i -e "s:WAS_GROUP_SHOULD_CHANGE_HERE:${WASGROUP}:g" ./instmanager
+
 	{ 
 		chmod 700 ./instmanager
 		for ((i = 0 ; i<=100 ; i+=5)); do 
