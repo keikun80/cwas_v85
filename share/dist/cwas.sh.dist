@@ -46,7 +46,7 @@ cwas_header() {
 cwas_footer() {
     echo " "
     echo -e "  \e[1;37mUsage 1) \e[1;32mcwas \e[1;33m[ Instname ] \e[0m[ \e[1;36mstart\e[0m | \e[1;36mrestart\e[0m | \e[1;36mstatus\e[0m | \e[1;36mstop \e[0m] "
-    echo -e "  \e[1;37mUsage 2) \e[1;32mcwas.sh \e[1;33m[ Instname ] \e[0m[ \e[1;36mconfig\e[0m | \e[1;36mkill\e[0m | \e[1;36mlog\e[0m | \e[1;36mthread \e[0m] "
+    echo -e "  \e[1;37mUsage 2) \e[1;32mcwas \e[1;33m[ Instname ] \e[0m[ \e[1;36mconfig\e[0m | \e[1;36mkill\e[0m | \e[1;36mlog\e[0m | \e[1;36mthread \e[0m] "
     echo " "
     echo -e "  \e[1;31mex) \e[1;32mcwas \e[1;33minst1 \e[1;36mstart \e[0m"
     echo " "
