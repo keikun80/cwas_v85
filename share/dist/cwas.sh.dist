@@ -204,8 +204,22 @@ _usageprint()
 
     if [ ! -z $ARGV ]; then 
         echo -e "  Status : Invalid parameter [ \e[1;31m$ARGV\e[0m ]"
-    else 
-		echo -e "  Status : Try again. "
+    else  
+        echo ""
+        echo "Help for CWAS command"
+        echo "1. You can have action for exists instance"
+        echo "  - action command"
+        echo "  shell >./cwas [instance] [ start | stop | status | log | kill | thread]"
+        echo ""
+        echo "2. Read this message or just check instance list"
+        echo "  sheel >./cwas" 
+		echo ""
+		echo "3. Instance manager" 
+        echo "  - Add instance"
+        echo "  shell >./instmanager [instance] add" 
+        echo "  - Remove instance"
+        echo "  shell >./instmanager [instance] remove" 
+
     fi
 }
 
@@ -229,10 +243,10 @@ chkInstance()
 
 
 
-if [ 2 != $# ]; then   
-	_usageprint	 
-	exit
-fi  
+#if [ 2 != $# ]; then   
+#	_usageprint	 
+#	exit
+#fi  
 
 ARGV=$2 
 INSTNAME=$1 
@@ -244,13 +258,15 @@ CATALINA_HOME=${currentDir}/engine
 CATALINA_BASE=${currentDir}/instance/$1
 
 cwas_header
-chkOwner  
-chkInstance $CATALINA_BASE
+chkOwner   
+if [ 2 = $# ]; then
+    chkInstance $CATALINA_BASE
+    export JAVA_HOME JAVA_OPTS CATALINA_HOME CATALINA_BASE
+    source $CATALINA_BASE/conf/sia.conf 
+fi
 getInstance 
 cwas_footer 
 
-export JAVA_HOME JAVA_OPTS CATALINA_HOME CATALINA_BASE
-source $CATALINA_BASE/conf/sia.conf
 #. $CATALINA_BASE/conf/sia.conf 
 
 
