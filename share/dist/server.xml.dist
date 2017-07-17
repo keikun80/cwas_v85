@@ -99,7 +99,7 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
              <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
-    <Engine name="Catalina" defaultHost="localhost" JvmRoute="${tomcat.jvmroute}">
+    <Engine name="Catalina" defaultHost="localhost" JvmRoute="${tomcat.port.jvmroute}">
 
       <!--For clustering, please take a look at documentation at:
                      /docs/cluster-howto.html  (simple how to)
@@ -131,7 +131,7 @@
                           Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="${tomcat.jvmroute}_access_log" suffix=".txt"
+               prefix="${tomcat.port.jvmroute}_access_" suffix=".log"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
       </Host>
