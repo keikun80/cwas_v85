@@ -219,7 +219,7 @@ _usageprint()
         echo "  shell >./instmanager [instance] add" 
         echo "  - Remove instance"
         echo "  shell >./instmanager [instance] remove" 
-
+		echo ""
     fi
 }
 
