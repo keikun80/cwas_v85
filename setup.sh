@@ -276,7 +276,7 @@ JAVA_OPTS=""
 
 
 
-#_tui_front 
+_tui_front 
 #_front 
 _tui_install
 #_checkuser 

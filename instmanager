@@ -200,7 +200,10 @@ addInst() {
    #echo -e "export \"JAVA_OPTS=\$JAVA_OPTS ${OPT}" >> ${INSTDIR}/${CONF} 
     
     #cat .javaopts >> ${INSTDIR}/${CONF}
-    cp ${INSTROOT}/share/dist/server.xml.dist ${INSTDIR}/${CONFDIR}server.xml
+    cp ${INSTROOT}/share/dist/server.xml.dist ${INSTDIR}/${CONFDIR}/server.xml
+    cp ${INSTROOT}/share/dist/server_ha.xml.dist ${INSTDIR}/${CONFDIR}/server_ha.xml
+    cp ${INSTROOT}/share/dist/context_ha.xml.dist ${INSTDIR}/${CONFDIR}/context_ha.xml
+    cp ${INSTROOT}/share/dist/web_ha.xml.dist ${INSTDIR}/${CONFDIR}/web_ha.xml
 
 } 
 removeInst() {  
@@ -245,14 +248,14 @@ INSTNAME=$1
 ARGV=$2   
 INSTROOT=`pwd`   
 
-CWAS_USER="WAS_USER_SHOULD_CHANGE_HERE"
-CWAS_GROUP="WAS_GROUP_SHOULD_CHANGE_HERE" 
+CWAS_USER="was"
+CWAS_GROUP="was" 
 
 temp_java_home="/etc/alternatives/jre";
 INSTDIR=${INSTROOT}/instance/${INSTNAME}
-CONFDIR="conf/"  
+CONFDIR="conf"  
 CONFIG="sia.conf"
-CONF=${CONFDIR}${CONFIG}     
+CONF=${CONFDIR}/${CONFIG}     
 
 chkOwner
 if [ "$#" -ne 2 ]; then   

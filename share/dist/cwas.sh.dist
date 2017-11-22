@@ -300,19 +300,19 @@ log)
 restart)
     ARGV=stop
     cwas_stop
-    #while (true) 
-    #do
-   	siaPID=$(ps -ef | grep ${TPATH} | grep -v grep | grep -w ${CATALINA_BASE} | awk {'print $2'})
-	if [ ! -z "$siaPID" ]; then
-    	sleep 1.5
-	else 
-		ARGV=start
-		cwas_start
-	    exit
-	fi
-    #done
-    ;;
-
+    while (true) 
+    do
+   		siaPID=$(ps -ef | grep ${TPATH} | grep -v grep | grep -w $INSTNAME | awk {'print $2'})
+		if [ ! -z "$siaPID" ]; then
+    		echo "${INSTNAME} instance stoping ...." 
+    		sleep 1.5  
+		else
+    		ARGV=start
+			cwas_start
+			exit 
+		fi
+    done
+;;
 config)
     cwas_config
     ;;
