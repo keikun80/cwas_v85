@@ -204,6 +204,7 @@ addInst() {
     cp ${INSTROOT}/share/dist/server_ha.xml.dist ${INSTDIR}/${CONFDIR}/server_ha.xml
     cp ${INSTROOT}/share/dist/context_ha.xml.dist ${INSTDIR}/${CONFDIR}/context_ha.xml
     cp ${INSTROOT}/share/dist/web_ha.xml.dist ${INSTDIR}/${CONFDIR}/web_ha.xml
+    cp ${INSTROOT}/share/dist/session.jsp ${INSTDIR}/webapps/session.jsp
 
 } 
 removeInst() {  

@@ -113,7 +113,8 @@ cwas_stop() {
 	echo "  Instance stop message"
 	echo " " 
 	
-    runinst=$(ps -ef | grep tomcat | grep $TPATH | grep -w $CATALINA_BASE)
+    #runinst=$(ps -ef | grep tomcat | grep $TPATH | grep -w $CATALINA_BASE)
+    runinst=$(ps -ef | grep tomcat | grep $TPATH | grep -w $INSTNAME)
     if [ ! -z "$runinst" ]; then
         echo -e " \e[1;31m Stopping Tomcat Instance \e[0m[ \e[1;33m$INSTNAME\e[0m ] "
         sia_line
