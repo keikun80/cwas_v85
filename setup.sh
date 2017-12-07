@@ -235,10 +235,10 @@ function _tui_setlauncher()
 {  
 	#echo ${WASUSER}
    	cp ./share/dist/cwas.sh.dist ./cwas 
- 	sed -i -e "s:WAS_USER_SHOULD_CHANGE_HERE:${WASUSER}:g" ./cwas
- 	sed -i -e "s:WAS_GROUP_SHOULD_CHANGE_HERE:${WASGROUP}:g" ./cwas
- 	sed -i -e "s:WAS_USER_SHOULD_CHANGE_HERE:${WASUSER}:g" ./instmanager
- 	sed -i -e "s:WAS_GROUP_SHOULD_CHANGE_HERE:${WASGROUP}:g" ./instmanager
+ 	sed -i -e "s:CHANGE_HERE_FOR_WAS_USER:${WASUSER}:g" ./cwas
+ 	sed -i -e "s:CHANGE_HERE_FOR_WAS_GROUP:${WASGROUP}:g" ./cwas
+ 	sed -i -e "s:CHANGE_HERE_FOR_WAS_USER:${WASUSER}:g" ./instmanager
+ 	sed -i -e "s:CHANGE_HERE_FOR_WAS_GROUP:${WASGROUP}:g" ./instmanager
 
 	{ 
 		chmod 700 ./instmanager

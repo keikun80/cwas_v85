@@ -252,8 +252,8 @@ chkInstance()
 ARGV=$2 
 INSTNAME=$1 
 currentDir=`pwd`  
-CWAS_USER="WAS_USER_SHOULD_CHANGE_HERE"
-CWAS_GROUP="WAS_GROUP_SHOULD_CHANGE_HERE"
+CWAS_USER="CHANGE_HERE_FOR_WAS_USER"
+CWAS_GROUP="CHANGE_HERE_FOR_WAS_GROUP"
 TPATH=${currentDir}/engine/bin/bootstrap.jar 
 CATALINA_HOME=${currentDir}/engine 
 CATALINA_BASE=${currentDir}/instance/$1
