@@ -142,7 +142,7 @@
                         frequency="500"
                         dropTime="3000"/>
             <Receiver className="org.apache.catalina.tribes.transport.nio.NioReceiver"
-                      address="auto"
+                      address="${tomcat.port.serviceip}"
                       port="4000"
                       autoBind="100"
                       selectorTimeout="5000"
@@ -157,14 +157,15 @@
 
           <Valve className="org.apache.catalina.ha.tcp.ReplicationValve"
                  filter=""/>
-          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/>
-
+          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/> 
+<!-- Uncommented here if you will use one WAR deploy  -->
+<!-- 
           <Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"
                     tempDir="/tmp/war-temp/"
                     deployDir="/tmp/war-deploy/"
                     watchDir="/tmp/war-listen/"
                     watchEnabled="false"/>
-
+-->
           <ClusterListener className="org.apache.catalina.ha.session.ClusterSessionListener"/>
 
 		</Cluster>	

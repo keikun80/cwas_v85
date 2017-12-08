@@ -1,6 +1,16 @@
 #!/bin/bash
 
-currentDir=`pwd`
+INSTNAME=$1 
+ARGV=$2   
+INSTROOT=`pwd`   
+CWAS_USER="CHANGE_HERE_FOR_WAS_USER"
+CWAS_GROUP="CHANGE_HERE_FOR_WAS_GROUP"  
+temp_java_home="/etc/alternatives/jre";
+INSTDIR=${INSTROOT}/instance/${INSTNAME}
+CONFDIR="conf/"  
+CONFIG="sia.conf"
+CONF=${CONFDIR}${CONFIG}     
+
 function _front()
 { 
     TITLE="CHLUX WEB APPLICATION SERVER INSTANCE MANAGER"
@@ -123,88 +133,87 @@ addInst() {
     #fi  
 
     if [ -d ${INSTDIR} ]; then  
-        echo -e "\e[33mAlready exist Instance name (${INSTNAME})\e[0m"
-        echo -e "\e[93mExit script\e[0m" 
+        echo "Already exist Instance name (${INSTNAME})"
+        echo "Exit script" 
         exit
     fi 
  
-    echo -e "\e[32mInstnace name : \e[33m" ${INSTNAME}"\e[0m"
-    echo -e -n "\e[32mShutdown port (default : 8005) : \e[0m" 
-    read a
-    if [[ $a ]]; then
-       shutdownport=${a} 
+    echo "iNSTNACE NAME : " ${INSTNAME}""
+    echo -n "SERVICE IP :" 
+    read sip
+    if [[ $sip ]]; then
+       serviceip=${sip} 
     fi 
-    echo -e -n "\e[32mhttp port (default : 8080)     : \e[0m"
-    read b 
-    if [[ $b ]]; then
-       httpport=${b} 
+    echo -n "SHUTDOWN PORT (default : 8005) :" 
+    read sport
+    if [[ $sport ]]; then
+       shutdownport=${sport} 
     fi 
-    echo -e -n "\e[32mhttps port (default : 8443)    : \e[0m"
-    read c
-    if [[ $c ]]; then
-       httpsport=${c} 
+    echo -n "HTTP PORT     (default : 8080) :"
+    read hport 
+    if [[ $hport ]]; then
+       httpport=${hport} 
     fi 
-    echo -e -n "\e[32mredirect port (default : 8443) : \e[0m"
-    read d 
-    if [[ $c ]]; then
-      redport=${d} 
+    echo -n "HTTPS PORT    (default : 8443) : "
+    read hsport
+    if [[ $hsport ]]; then
+       httpsport=${hsport} 
     fi 
-    echo -e -n "\e[32majp port (default : 8009)      : \e[0m"
-    read e  
-    if [[ $e ]]; then
-      ajpport=${e} 
+    echo -n "REDIRECT PORT (default : 8443) : "
+    read rport
+    if [[ $rport ]]; then
+      redport=${rport} 
+    fi 
+    echo -n "AJP PORT      (default : 8009) : "
+    read aport 
+    if [[ $aport ]]; then
+      ajpport=${aport} 
     fi 
 
     #echo -e "\e[32madd instance ${INSTNAME} \e[0m"
-    echo -e "\e[32mcreate instance directory for  \e[33m${INSTNAME} \e[0m"
+    echo  "Create instance directory : ${INSTNAME}"
     mkdir -p ${INSTDIR}
     mkdir -p ${INSTDIR}/${CONFDIR}
     mkdir -p ${INSTDIR}/lib
     mkdir -p ${INSTDIR}/logs
     mkdir -p ${INSTDIR}/temp
     mkdir -p ${INSTDIR}/work
-    #mkdir -p ${INSTDIR}/webapps   
-	
-	#if [ ! -d "${currentDir}/Deployments" ]; then  
-	#	mkdir -p ${currentDir}/Deployments
-	#fi
-	#mkdir -p ${currentDir}/Deployments/${INSTNAME} 
-	#ln -s ${currentDir}/Deployments/${INSTNAME}	 ${INSTDIR}/webapps
-    #cp -r share/conf/web.xml ${INSTDIR}/${CONFDIR}/web.xml  
 
     cp -r share/conf ${INSTDIR}/.
-    #cp -r share/webapps ${currentDir}/Deployments/${INSTNAME}
     cp -r share/webapps ${INSTDIR}/.
    
-    echo -e "\e[32mcreate instance configuration for  \e[33m${INSTNAME} \e[0m"
+    echo "Create ${INSTNAME} instance configuration"
 
     echo -e "#!/bin/bash"  >>                                                       ${INSTDIR}/${CONF}
-    echo -e "sia_instname=\"${INSTNAME}\"" >>                                          ${INSTDIR}/${CONF}
+    echo -e "sia_instname=\"${INSTNAME}\"" >>                                       ${INSTDIR}/${CONF}
     echo -e "sia_shutdown=${shutdownport}" >>                                       ${INSTDIR}/${CONF}
     echo -e "sia_http=${httpport}" >>                                               ${INSTDIR}/${CONF}
     echo -e "sia_https=${httpsport}" >>                                             ${INSTDIR}/${CONF}
     echo -e "sia_redirect=${redport}" >>                                            ${INSTDIR}/${CONF}
     echo -e "sia_ajp=${ajpport} " >>                                                ${INSTDIR}/${CONF}
-    echo -e "sia_jvmroute=\"${INSTNAME}\"" >>                                           ${INSTDIR}/${CONF} 
+    echo -e "sia_jvmroute=\"${INSTNAME}\"" >>                                       ${INSTDIR}/${CONF} 
+    echo -e "sia_serviceip=\"${serviceip}\"" >>                                       ${INSTDIR}/${CONF} 
    
 
     cat .javaopts >> ${INSTDIR}/${CONF}
     rm .javaopts  
     #echo -e "export \"JAVA_OPTS=\"\"\""  >> ${INSTDIR}/${CONF}
-    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.shutdown=\$sia_shutdown\""  >> ${INSTDIR}/${CONF}
-    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.http=\$sia_http\"" >>     ${INSTDIR}/${CONF}
-    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.https=\$sia_https\"" >>        ${INSTDIR}/${CONF}
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.shutdown=\$sia_shutdown\""  >>    ${INSTDIR}/${CONF}
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.http=\$sia_http\"" >>             ${INSTDIR}/${CONF}
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.https=\$sia_https\"" >>           ${INSTDIR}/${CONF}
     echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.redirect=\$sia_redirect\"" >>     ${INSTDIR}/${CONF}
-    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.ajp=\$sia_ajp\"" >>           ${INSTDIR}/${CONF}
-    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.jvmroute=\$sia_instname\"" >> ${INSTDIR}/${CONF} 
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.ajp=\$sia_ajp\"" >>               ${INSTDIR}/${CONF}
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.jvmroute=\$sia_jvmroute\"" >>     ${INSTDIR}/${CONF} 
+    echo -e "export \"JAVA_OPTS=\$JAVA_OPTS -Dtomcat.port.serviceip=\$sia_serviceip\"" >>     ${INSTDIR}/${CONF} 
    #echo -e "export \"JAVA_OPTS=\$JAVA_OPTS ${OPT}" >> ${INSTDIR}/${CONF} 
     
     #cat .javaopts >> ${INSTDIR}/${CONF}
     cp ${INSTROOT}/share/dist/server.xml.dist ${INSTDIR}/${CONFDIR}/server.xml
     cp ${INSTROOT}/share/dist/server_ha.xml.dist ${INSTDIR}/${CONFDIR}/server_ha.xml
     cp ${INSTROOT}/share/dist/context_ha.xml.dist ${INSTDIR}/${CONFDIR}/context_ha.xml
-    cp ${INSTROOT}/share/dist/web_ha.xml.dist ${INSTDIR}/${CONFDIR}/web_ha.xml
-    cp ${INSTROOT}/share/dist/session.jsp ${INSTDIR}/webapps/ROOT/session.jsp
+    cp ${INSTROOT}/share/dist/web_ha.xml.dist ${INSTDIR}/${CONFDIR}/web_ha.xml 
+	cp ${INSTROOT}/share/dist/session.jsp ${INSTDIR}/webapps/ROOT/session.jsp
+
 
 } 
 removeInst() {  
@@ -213,18 +222,18 @@ removeInst() {
 
 _confirm()
 { 
-    echo -e "\e[32mWill you create this instance  : \e[33m${INSTNAME}\e[0m" 
+    echo "Will you create instance  : ${INSTNAME}" 
     read -r -p "Continue[y/N] : " response
     case ${response} in
             [yY][eE][sS]|[yY])
-                echo -e "\e[32mStart create instance \e[33m"${INSTNAME}"...\e[0m" 
+                echo "Start create ${INSTNAME} instance"
                 ;;
             [nN][oO]|[nN]) 
-                echo -e "\e[93mExit script\e[0m" 
+                echo "Exit script" 
                 exit
                 ;;
             *)  
-                echo -e "\e[93mExit script\e[0m" 
+                echo "Exit script" 
                 exit
                 ;;
         esac  
@@ -232,7 +241,7 @@ _confirm()
 
 _usageprint()
 {
-    echo "Usage : instmanager [Instance] {add | remove}" 
+    echo "Usage : instmanager [INSTANCE_NAME] {add | remove}" 
     exit
 } 
 chkOwner()
@@ -245,18 +254,16 @@ chkOwner()
     fi
 }
 
-INSTNAME=$1 
-ARGV=$2   
-INSTROOT=`pwd`   
+#INSTNAME=$1 
+#ARGV=$2   
+#INSTROOT=`pwd`   
 
-CWAS_USER="CHANGE_HERE_FOR_WAS_USER"
-CWAS_GROUP="CHANGE_HERE_FOR_WAS_GROUP" 
 
-temp_java_home="/etc/alternatives/jre";
-INSTDIR=${INSTROOT}/instance/${INSTNAME}
-CONFDIR="conf"  
-CONFIG="sia.conf"
-CONF=${CONFDIR}/${CONFIG}     
+#temp_java_home="/etc/alternatives/jre";
+#INSTDIR=${INSTROOT}/instance/${INSTNAME}
+#CONFDIR="conf/"  
+#CONFIG="sia.conf"
+#CONF=${CONFDIR}${CONFIG}     
 
 chkOwner
 if [ "$#" -ne 2 ]; then   
