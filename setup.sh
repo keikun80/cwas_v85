@@ -2,8 +2,9 @@
 
 
 currentDir=`pwd`;
-
-
+TITLE="CWAS INSTALLER"
+CWAS_VERSION=`cat version`
+TC_VERSION=`./engine/bin/version.sh | grep 'Server version'`
 #temp_java_home=${JAVA_HOME}
 temp_java_home="/etc/alternatives";
 
@@ -15,30 +16,32 @@ _RET=0
 function _com_chk_install() 
 { 
 	if [ -f ./cwas ]; then  
-		whiptail --msgbox "Already installed Chlux Web Application Server"  8 50
+		whiptail --msgbox "Already installed Chlux Web Application Server"  8 80
 	else 
 		_RET=1
 	fi 
 }
 function _tui_front()
-{
-    TITLE="CHLUX WEB APPLICATION SERVER INSTALLER"
-    clear
-    eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
-    echo -e "" 
-    printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : 1.0.1c" 
-    echo -e "\t Package : APACHE TOMCAT 7.0"
-    echo -e "\t Require : Root Permission (Installation)"
-    echo -e ""
-    eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo  
-
+{ 
+	echo "" > _frontbox
+    #clear
+    #eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo >> _frontbox
+    #echo -e ""                                                 >> _frontbox 
+    #printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"    >> _frontbox
+    echo -e "\t\t$TITLE"                                       >> _frontbox 
+	echo ""                                                    >> _frontbox
+    echo -e "\t Installer version: ${CWAS_VERSION}"            >> _frontbox
+    echo -e "\t ${TC_VERSION}"                                 >> _frontbox
+    echo -e "\t Require : Root Permission (Installation)"      >> _frontbox
+    echo -e ""                                                 >> _frontbox
+    #eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo >> _frontbox  
+	whiptail --textbox _frontbox 14 80
 }
 function _com_chk_eula()
 {  
 
-	if (whiptail --scrolltext --title "End user license agreement" --textbox engine/LICENSE 30 60 ) then 
-		if (whiptail --title "Question" --yes-button "Agree" --no-button "Not Agree" --yesno "Are you agree?" 10 60) then    
+	if (whiptail --scrolltext --title "End user license agreement" --textbox engine/LICENSE 30 80 ) then 
+		if (whiptail --title "Question" --yes-button "Agree" --no-button "Not Agree" --yesno "Are you agree?" 10 80) then
 			_RET=$?
 		fi 
 	fi
@@ -46,7 +49,8 @@ function _com_chk_eula()
 
 function _tui_install()
 {   
-	_com_chk_install  
+	_tui_front
+	_com_chk_install   
 	if [ $_RET == 0 ]; then   
 		exit
 	else
@@ -58,8 +62,7 @@ function _tui_install()
 
 	WASUSER=`whoami` 
 
-	WASUSER=$(whiptail --inputbox "Enter Web Application  owner (default : [$WASUSER])" 8 78 $WASUSER --title "Owner"  3>&1 1>&2 2>&3) 
-	#WASGROUP=$(whiptail --inputbox "Enter Web Application  group (default : [$WAGROUP])" 8 78 $WASUSER --title "Owner"  3>&1 1>&2 2>&3)  
+	WASUSER=$(whiptail --inputbox "Enter Web Application owner (default : [$WASUSER])" 8 78 $WASUSER --title "Owner"  3>&1 1>&2 2>&3) 
 
 	_RET=$? 
 
@@ -73,7 +76,7 @@ function _tui_install()
 	fi  
 
 	if [ $_RET = 0 ]; then
-		WASGROUP=$(whiptail --inputbox "Enter Web Application  group (default : [$WASUSER])" 8 78 $WASUSER --title "Owner"  3>&1 1>&2 2>&3)  
+		WASGROUP=$(whiptail --inputbox "Enter Web Application group (default : [$WASUSER])" 8 78 $WASUSER --title "Owner"  3>&1 1>&2 2>&3)  
 		_RET=$?
 	else 
 		echo "user select cancel"
@@ -82,14 +85,12 @@ function _tui_install()
 	if [ $_RET != 0 ]; then  
 		exit
 	fi  
-	#echo $WASUSER
-	#echo $WASGROUP 
 
     ret=false
     getent passwd ${WASUSER} >/dev/null 2&>1 && ret=true 
 
     if ${ret}; then 
-		whiptail --msgbox "Already exists ["${WASUSER}" / "$WASGROUP"] Chlux Web Application Server"  10 90 
+		whiptail --msgbox "Already exists ["${WASUSER}" / "$WASGROUP"] CWAS"  10 90 
     else  
         #groupadd ${APACHE_GROUP} > /dev/null 2&>1  
         if [ ! $(getent group ${WASGROUP}) ]; then  
@@ -99,10 +100,9 @@ function _tui_install()
         useradd ${GROUP_SW} -M -r -d ${currentDir} ${WASUSER} -s /bin/bash > /dev/null 
         whiptail --msgbox "Create ["${WASUSER}"/"${WASGROUP}"] for WAS" 10 90
     fi 
-    rm -f 1 
-
 	#echo "(Exit status was $exitstatus)"	
-}
+} 
+
 function _checkuser()
 {
     # Setup User / group for Apache
@@ -129,32 +129,14 @@ function _checkuser()
         echo -e "\e[33m\e[1m -- Entered UID/GID (${WAS_USER}/${WAS_GROUP}) is already exists, Will use this UID.\e[0m"
     else  
         #groupadd ${APACHE_GROUP} > /dev/null 2&>1  
-        if [ ! $(getent group ${APACHE_GROUP}) ]; then  
-            groupadd ${APACHE_GROUP}
+        if [ ! $(getent group ${WAS_GROUP}) ]; then  
+            groupadd ${WAS_GROUP}
         fi
-        GROUP_SW="-g ${APACHE_GROUP}"
+        GROUP_SW="-g ${WAS_GROUP}"
         useradd ${GROUP_SW} -M -r -d ${currentDir} ${WAS_USER} -s /bin/bash > /dev/null 
         echo -e "\e[32m --Create USER/GROUP for Apache (${WAS_USER}/${WAS_GROUP})\e[0m"
     fi 
-    rm -f 1
-}
-
-
-function _front()
-{
-    TITLE="CHLUX TOMCAT MULII INSTANCE PACK INSTALLER"
-    clear
-    eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
-    echo -e "" 
-    printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : 1.0" 
-    echo -e "\t Author  : Chlux Co,Ltd."
-    echo -e "\t Release : 25. Dec. 2016" 
-    echo -e "\t Package : APACHE TOMCAT 7.0"
-    echo -e "\t Require : Root Permission (Installation)"
-    echo -e ""
-    eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo  
-
+    /bin/rm -f 1
 }
 
 
@@ -234,7 +216,7 @@ function _setjavaopt()
 function _tui_setlauncher()
 {  
 	#echo ${WASUSER}
-   	cp ./share/dist/cwas.sh.dist ./cwas 
+   	/bin/cp ./share/dist/cwas.sh.dist ./cwas 
  	sed -i -e "s:CHANGE_HERE_FOR_WAS_USER:${WASUSER}:g" ./cwas
  	sed -i -e "s:CHANGE_HERE_FOR_WAS_GROUP:${WASGROUP}:g" ./cwas
  	sed -i -e "s:CHANGE_HERE_FOR_WAS_USER:${WASUSER}:g" ./instmanager
@@ -253,19 +235,8 @@ function _tui_setlauncher()
     	chown -R ${WASUSER}:${WASGROUP} ${currentDir} 
 	} | whiptail --gauge "Please wait .." 8 50 0 
 	whiptail --msgbox "Finish Installation" 8 50 
-}
-function _setlauncher() 
-{
-    echo -e "\e[32mCreate launcher ... \e[0m"
-    cp share/dist/cwas.sh.dist ./cwas
-    #sed -i -e "s:CHANGE_JAVA_HOME:${temp_java_home}:g" launcher.sh 
+} 
 
-    chmod 700 ./cwas
-    if [ ! -d instnace ]; then 
-        mkdir -p instance
-    fi
-    chown -R ${WAS_USER}. ${currentDir}
-}
 
 function _footer() 
 { 
@@ -276,18 +247,20 @@ JAVA_OPTS=""
 
 
 
-_tui_front 
-#_front 
 _tui_install
-#_checkuser 
+_tui_setlauncher
+/bin/rm -f 1
+/bin/rm -f _frontbox
 
-##########################################################
+#_tui_front  
+############################_
+#_checkuser 
 # Disable Set javahome and opts , it moved to addinst.sh # 
 ##########################################################
 #_setjavahome 
 #_getjavaversion  
 #_setjavaopt   
 
-_tui_setlauncher
-#_setlauncher 
+#_tui_setlauncher
+###############################_setlauncher 
 #_footer
