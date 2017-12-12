@@ -18,7 +18,7 @@ function _front()
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
     echo -e "" 
     printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : 1.0.2c" 
+    echo -e "\t Version : `cat version`" 
     echo -e "\t Author  : Chlux Co,Ltd."
     echo -e ""
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo   

@@ -29,7 +29,7 @@ cwas_header() {
     echo " "
     sia_line
     echo -e " "
-    echo -e "   \e[1;34m Chlux Web Application Server 1.0.2c" 
+    echo -e "   \e[1;34m Chlux Web Application Server `cat version`" 
     echo -e " "
     echo -e "    Website      : http://www.github.com/chluxossteam"
     echo -e "    Pubilshed by : chluxossteam <help@chlux.co.kr>"
