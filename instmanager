@@ -138,18 +138,18 @@ addInst() {
         exit
     fi 
  
-    echo "iNSTNACE NAME : " ${INSTNAME}""
+    echo "INSTNACE NAME : " ${INSTNAME}""
     echo -n "SERVICE IP :" 
     read sip
     if [[ $sip ]]; then
        serviceip=${sip} 
     fi 
-    echo -n "SHUTDOWN PORT (default : 8005) :" 
+    echo -n "SHUTDOWN PORT (default : 8005) : " 
     read sport
     if [[ $sport ]]; then
        shutdownport=${sport} 
     fi 
-    echo -n "HTTP PORT     (default : 8080) :"
+    echo -n "HTTP PORT     (default : 8080) : "
     read hport 
     if [[ $hport ]]; then
        httpport=${hport} 
