@@ -1,4 +1,4 @@
-## Download
+## Download stable version
 https://github.com/chluxossteam/cwas_v85/releases
 
 ## Requirement 
