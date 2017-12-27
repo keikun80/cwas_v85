@@ -11,7 +11,7 @@ INSTDIR=${INSTROOT}/instance/${INSTNAME}
 CONFDIR="conf/"  
 CONFIG="sia.conf"
 CONF=${CONFDIR}${CONFIG}     
-
+serviceip=`hostname -i`
 function _front()
 { 
     TITLE="CHLUX WEB APPLICATION SERVER INSTANCE MANAGER"
@@ -140,23 +140,24 @@ addInst() {
 		echo ""
         exit
     fi  
-	declare -l temp_instname
-	declare -l temp_cwasuser 
-	temp_instname=${INSTNAME}
-	temp_cwasuser=${CWAS_USER}
-	if [ ${temp_instname} == ${temp_cwasuser} ]; then 
-		echo "Cannot create instnace name same as was owner"
-		echo ""
-		exit
-	fi
+	#declare -l temp_instname
+	#declare -l temp_cwasuser 
+	#temp_instname=${INSTNAME}
+	#temp_cwasuser=${CWAS_USER}
+	#if [ ${temp_instname} == ${temp_cwasuser} ]; then 
+	#	echo "Cannot create instnace name same as was owner"
+	#	echo ""
+	#	exit
+	#fi 
+
     echo "INSTNACE NAME : " ${INSTNAME}""  
-    echo -n "SERVICE IP :" 
+    echo -n "SERVICE IP : (default : ${serviceip}) : " 
     read sip
     if [[ $sip ]]; then
        serviceip=${sip} 
     fi 
     echo -n "NIO RECEIVE PORT (default : ${receiveport}) : " 
-    read sport
+    read rport
     if [[ $rport ]]; then
        receiveport=${rport} 
     fi 
