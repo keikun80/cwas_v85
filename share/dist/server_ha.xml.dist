@@ -125,7 +125,7 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
-    <Engine name="Catalina" defaultHost="localhost" JvmRoute="${tomcat.port.jvmroute}">
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="${tomcat.port.jvmroute}">
 
       <!--For clustering, please take a look at documentation at:
           /docs/cluster-howto.html  (simple how to)
@@ -153,11 +153,12 @@
             </Sender>
             <Interceptor className="org.apache.catalina.tribes.group.interceptors.TcpFailureDetector"/>
             <Interceptor className="org.apache.catalina.tribes.group.interceptors.MessageDispatchInterceptor"/>
+            <Interceptor className="org.apache.catalina.tribes.group.interceptors.ThroughputInterceptor"/>
           </Channel>
 
           <Valve className="org.apache.catalina.ha.tcp.ReplicationValve"
                  filter=""/>
-          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/> 
+          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve" enabled="true"/> 
 <!-- Uncommented here if you will use one WAR deploy  -->
 <!-- 
           <Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"
