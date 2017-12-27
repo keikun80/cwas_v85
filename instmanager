@@ -3,6 +3,7 @@
 INSTNAME=$1 
 ARGV=$2   
 INSTROOT=`pwd`   
+UNAME=`id -u -n`
 CWAS_USER="CHANGE_HERE_FOR_WAS_USER"
 CWAS_GROUP="CHANGE_HERE_FOR_WAS_GROUP"  
 temp_java_home="/etc/alternatives/jre";
@@ -135,11 +136,20 @@ addInst() {
 
     if [ -d ${INSTDIR} ]; then  
         echo "Already exist Instance name (${INSTNAME})"
-        echo "Exit script" 
+        #echo "Exit script" 
+		echo ""
         exit
-    fi 
- 
-    echo "INSTNACE NAME : " ${INSTNAME}""
+    fi  
+	declare -l temp_instname
+	declare -l temp_cwasuser 
+	temp_instname=${INSTNAME}
+	temp_cwasuser=${CWAS_USER}
+	if [ ${temp_instname} == ${temp_cwasuser} ]; then 
+		echo "Cannot create instnace name same as was owner"
+		echo ""
+		exit
+	fi
+    echo "INSTNACE NAME : " ${INSTNAME}""  
     echo -n "SERVICE IP :" 
     read sip
     if [[ $sip ]]; then
@@ -230,7 +240,17 @@ removeInst() {
 }
 
 _confirm()
-{ 
+{  
+    declare -l temp_instname
+    declare -l temp_cwasuser
+    temp_instname=${INSTNAME}
+    temp_cwasuser=${CWAS_USER}
+    if [ ${temp_instname} == ${temp_cwasuser} ]; then
+        echo "Cannot create instnace name same as was owner"
+        echo ""
+        exit
+    fi
+
     echo "Will you create instance  : ${INSTNAME}" 
     read -r -p "Continue[y/N] : " response
     case ${response} in
@@ -255,7 +275,7 @@ _usageprint()
 } 
 chkOwner()
 {
-    UNAME=`id -u -n`
+    #UNAME=`id -u -n`
 
     if [ $UNAME != ${CWAS_USER} ]; then
         echo "  Start failure WAS service. WAS control allow to [ ${CWAS_USER} ] user"
