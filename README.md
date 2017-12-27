@@ -1,3 +1,6 @@
+## Download
+https://github.com/chluxossteam/cwas_v85/releases
+
 ## Requirement 
  WAS Account 
  WAS home directory
