@@ -134,7 +134,7 @@
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/>
 --> 
 	<Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"
-                 channelSendOptions="8"> 
+                 channelSendOptions="8">  
     	<Channel className="org.apache.catalina.tribes.group.GroupChannel">
             <Membership className="org.apache.catalina.tribes.membership.McastService"
                         address="228.0.0.4"
@@ -143,7 +143,7 @@
                         dropTime="3000"/>
             <Receiver className="org.apache.catalina.tribes.transport.nio.NioReceiver"
                       address="${tomcat.port.serviceip}"
-                      port="4000"
+                      port="${tomcat.port.receiveport}"
                       autoBind="100"
                       selectorTimeout="5000"
                       maxThreads="6"/>
@@ -158,7 +158,7 @@
 
           <Valve className="org.apache.catalina.ha.tcp.ReplicationValve"
                  filter=""/>
-          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve" enabled="true"/> 
+          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/>
 <!-- Uncommented here if you will use one WAR deploy  -->
 <!-- 
           <Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"

@@ -269,6 +269,16 @@ getInstance
 cwas_footer 
 
 #. $CATALINA_BASE/conf/sia.conf 
+declare -l temp_instname
+declare -l temp_cwasuser
+temp_instname=${INSTNAME}
+temp_cwasuser=${CWAS_USER}
+if [ ${temp_instname} == ${temp_cwasuser} ]; then
+    echo "Cannot start instnace name same as was owner" 
+    echo "Please change this instance name to another"
+    echo ""
+    exit
+fi
 
 
 

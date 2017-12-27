@@ -20,8 +20,7 @@
 <table border=1 bordercolor="gray" cellspacing=1 cellpadding=0
         width="100%">
         <tr bgcolor="gray">
-                <td colspan=2 align="center"><font color="white"><b>Session
-                Info</b></font></td>
+                <td colspan=2 align="center"><font color="white"><b>Session Info</b></font></td>
         </tr>
         <tr>
                 <td>Server HostName</td>
@@ -29,8 +28,7 @@
         </tr>
         <tr>
                 <td>Server IP</td>
-                <td><%=java.net.InetAddress.getLocalHost()
-                                                                        .getHostAddress()%></td>
+                <td><%=java.net.InetAddress.getLocalHost().getHostAddress()%></td>
         </tr>
         <tr>
                 <td>Request SessionID</td>
