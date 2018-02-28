@@ -1,5 +1,5 @@
 ## Download stable version
-https://github.com/chluxossteam/cwas_v85/releases
+https://github.com/keikun80/cwas_v85/release
 
 ## Requirement 
  WAS Account 

@@ -29,12 +29,11 @@ cwas_header() {
     echo " "
     sia_line
     echo -e " "
-    echo -e "   \e[1;34m Chlux Web Application Server `cat version`" 
+    echo -e "   \e[1;34m Clarify Web Application Server `cat version`" 
     echo -e " "
-    echo -e "    Website      : http://www.github.com/chluxossteam"
-    echo -e "    Pubilshed by : chluxossteam <help@chlux.co.kr>"
+    echo -e "    Website      : http://www.github.com/keikun80/cwas_v85"
+    echo -e "    Pubilshed by : keikun <ko.kidong@gmail.co.kr>"
     echo -e " "
-    echo -e "    Copyright(c) 2017 By CHLUX Co.Ltd. All rights reserved. "
     #echo -e "    Version : \e[1;33m$sia_tomcat_ver \e[0m"
     echo -e " "
     #java_ver 
