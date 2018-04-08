@@ -14,13 +14,13 @@ CONF=${CONFDIR}${CONFIG}
 serviceip=`hostname -i`
 function _front()
 { 
-    TITLE="CHLUX WEB APPLICATION SERVER INSTANCE MANAGER"
+    TITLE="CLARIFY WEB APPLICATION SERVER INSTANCE MANAGER"
     clear
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo    
     echo -e "" 
     printf "%*s\n" $(((${#TITLE}+$(tput cols))/2)) "$TITLE"
-    echo -e "\t Version : `cat version`" 
-    echo -e "\t Author  : Chlux Co,Ltd."
+    echo -e "\t Version       : `cat version`" 
+    echo -e "\t Maintained By : keikun <ko.kidong@gmail dot com>"
     echo -e ""
     eval printf %.0s\# '{1..'${COLUMNS:-$(tput cols)}'}'; echo   
 	UNAME=`id -u -n`

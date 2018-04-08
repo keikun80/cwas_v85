@@ -16,7 +16,7 @@ _RET=0
 function _com_chk_install() 
 { 
 	if [ -f ./cwas ]; then  
-		whiptail --msgbox "Already installed Chlux Web Application Server"  8 80
+		whiptail --msgbox "Already installed Clarify Web Application Server"  8 80
 	else 
 		_RET=1
 	fi 
@@ -71,7 +71,7 @@ function _tui_install()
 	fi  
 	#echo ${WASUSER}
 	if [ "root" == "${WASUSER}" ]; then  
-		whiptail --msgbox "root cannot be owner of Chlux Web Application Server" 10 90
+		whiptail --msgbox "root cannot be owner of Clarify Web Application Server" 10 90
 		exit
 	fi  
 
